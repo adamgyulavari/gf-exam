@@ -3,7 +3,7 @@ set :branch, "master"
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
-set :server_name, "gf-tester.mobil.ninja"
+set :server_name, "gf-exam.mobil.ninja"
 
 server '139.162.149.200', user: fetch(:deploy_user), roles: %w{app db web}, primary: true
 

@@ -2,13 +2,13 @@
 lock '3.6.1'
 
 set :application, 'gf-exam'
-set :repo_url, 'git@github.com:adamgyulavari/gf-tester.git'
+set :repo_url, 'git@github.com:adamgyulavari/gf-exam.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '~/apps/gf-tester'
+set :deploy_to, '~/apps/gf-exam'
 set :deploy_user, 'deployer'
 
 set :pty, false
