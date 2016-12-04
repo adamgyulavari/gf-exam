@@ -1,0 +1,4 @@
+%tr
+  %th= link_to suite.owner, suite_path(suite)
+  %th= "#{suite.rate}%"
+  %th= timeago_tag suite.created_at

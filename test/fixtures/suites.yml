@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: MyString
+  messages: MyText
+  rate: 
+
+two:
+  owner: MyString
+  messages: MyText
+  rate: 

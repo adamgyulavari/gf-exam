@@ -1,0 +1,14 @@
+.container
+  .row
+    %h1
+      = @suite.owner
+      's build from
+      = timeago_tag @suite.created_at
+  .row
+    .bg-white.col-md-12
+      %h3 Messages
+      .well
+        = @suite.messages.html_safe
+      %h3 Failures
+      .well
+        = @suite.failures.html_safe
