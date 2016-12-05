@@ -5,7 +5,7 @@ class ProcessPushJob < ApplicationJob
     FileUtils.rm_rf Rails.application.secrets.tmp_directory + '/zerda-java-basics'
     system("cd #{Rails.application.secrets.tmp_directory} && git clone git@github.com:#{username}/zerda-java-basics.git")
     FileUtils.rm_rf Rails.application.secrets.source_directory + '/com'
-    FileUtils.cp_r(Rails.application.secrets.tmp_directory + '/zerda-java-basics/src', Rails.application.secrets.source_directory)
+    FileUtils.cp_r(Rails.application.secrets.tmp_directory + '/zerda-java-basics/src/com', Rails.application.secrets.source_directory)
     system("cd #{Rails.application.secrets.run_directory} && ./gradlew test")
     messages = ''
     failures = ''
@@ -60,6 +60,10 @@ class ProcessPushJob < ApplicationJob
         messages += m + ' ' + '...OK<br>'
       end
     end
+    FileUtils.rm Rails.application.secrets.test_directory + '/TEST-com.greenfox.exams.java.BlackJackTest.xml'
+    FileUtils.rm Rails.application.secrets.test_directory + '/TEST-com.greenfox.exams.java.CardTest.xml'
+    FileUtils.rm Rails.application.secrets.test_directory + '/TEST-com.greenfox.exams.java.DeckTest.xml'
+    FileUtils.rm Rails.application.secrets.test_directory + '/TEST-com.greenfox.exams.java.PlayerTest.xml'
     Suite.create(owner: username, rate: 100 - (fail_count*100/test_count), messages: messages, failures: failures)
   end
 end
