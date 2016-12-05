@@ -8,7 +8,9 @@
     .bg-white.col-md-12
       %h3 Messages
       .well
-        = @suite.messages.html_safe
+        %code
+          = @suite.messages.html_safe
       %h3 Failures
       .well
-        = @suite.failures.html_safe
+        %code
+          = simple_format @suite.failures

@@ -4,10 +4,17 @@ class ProcessPushJob < ApplicationJob
   def perform(username)
     begin
       FileUtils.rm_rf Rails.application.secrets.tmp_directory + '/zerda-java-basics'
-      output = `cd #{Rails.application.secrets.tmp_directory} && git clone git@github.com:#{username}/zerda-java-basics.git`
+      output = ''
+      Open3.popen3("cd #{Rails.application.secrets.tmp_directory} && git clone git@github.com:#{username}/zerda-java-basics.git") do |stdin, stdout, stderr, wait_thr|
+        output += stdout.read
+        output += stderr.read
+      end
       FileUtils.rm_rf Rails.application.secrets.source_directory + '/com'
       FileUtils.cp_r(Rails.application.secrets.tmp_directory + '/zerda-java-basics/src/com', Rails.application.secrets.source_directory)
-      output += `cd #{Rails.application.secrets.run_directory} && ./gradlew test`
+      Open3.popen3("cd #{Rails.application.secrets.run_directory} && ./gradlew test") do |stdin, stdout, stderr, wait_thr|
+        output += stdout.read
+        output += stderr.read
+      end
     rescue
       output += 'something was wrong in your project setup (fork / clone / src folder / package name)'
     end
