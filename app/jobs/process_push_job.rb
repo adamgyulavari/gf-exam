@@ -2,11 +2,15 @@ class ProcessPushJob < ApplicationJob
   queue_as :default
 
   def perform(username)
-    FileUtils.rm_rf Rails.application.secrets.tmp_directory + '/zerda-java-basics'
-    output = `cd #{Rails.application.secrets.tmp_directory} && git clone git@github.com:#{username}/zerda-java-basics.git`
-    FileUtils.rm_rf Rails.application.secrets.source_directory + '/com'
-    FileUtils.cp_r(Rails.application.secrets.tmp_directory + '/zerda-java-basics/src/com', Rails.application.secrets.source_directory)
-    output += `cd #{Rails.application.secrets.run_directory} && ./gradlew test`
+    begin
+      FileUtils.rm_rf Rails.application.secrets.tmp_directory + '/zerda-java-basics'
+      output = `cd #{Rails.application.secrets.tmp_directory} && git clone git@github.com:#{username}/zerda-java-basics.git`
+      FileUtils.rm_rf Rails.application.secrets.source_directory + '/com'
+      FileUtils.cp_r(Rails.application.secrets.tmp_directory + '/zerda-java-basics/src/com', Rails.application.secrets.source_directory)
+      output += `cd #{Rails.application.secrets.run_directory} && ./gradlew test`
+    rescue
+      output += 'something was wrong in your project setup (fork / clone / src folder / package name)'
+    end
     messages = ''
     failures = ''
     test_count = 0
