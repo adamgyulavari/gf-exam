@@ -72,6 +72,6 @@ class ProcessPushJob < ApplicationJob
     rescue
       failures += output
     end
-    Suite.create(owner: username, rate: 100 - (fail_count*100/(test_count == 0 ? 1 : test_count)), messages: messages, failures: failures)
+    Suite.create(owner: username, rate: (test_count == 0 ? 0 : (100 - (fail_count*100/test_count))), messages: messages, failures: failures)
   end
 end
